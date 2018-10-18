@@ -55,6 +55,7 @@ class ShopifyWoocommerceIntegration{
             <div class="endpoint-url">
                 <p><?php echo $this->generate_shopify_endpoint($shopify_api_key); ?></p>
             </div>
+            <pre> Sample Shopify API + Domain : xxxxxx@xxxx.myshopify.com</pre>
             <form method="post" action="options.php">
             <?php
                 // This prints out all hidden setting fields
@@ -95,7 +96,7 @@ class ShopifyWoocommerceIntegration{
 
         add_settings_field(
             'shopify_api_key', // ID
-            'Shopify API Key', // Title 
+            'Shopify API Key + Domain', // Title 
             array( $this, 'shopify_api_key_callback' ), // Callback
             'sh-wc-setting-page', // Page
             'setting_section_id' // Section           
@@ -261,7 +262,7 @@ class ShopifyWoocommerceIntegration{
     }
     
     public function generate_shopify_endpoint($api_key){
-        return 'https://'  . $api_key . '@shiny-leaf.myshopify.com/';
+        return 'https://'  . $api_key . '/';
     }
 
     
