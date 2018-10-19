@@ -170,8 +170,8 @@ class ShopifyWoocommerceIntegration{
                     'post_type' => 'product',
                     'post_status' => 'publish',
                     'posts_per_page' => -1,
-                    'order' => 'title',
-                    'orderby' => 'ASC'
+                    'order' => 'ASC',
+                    'orderby' => 'title'
                 )
             );
             if ($query->have_posts()): 
