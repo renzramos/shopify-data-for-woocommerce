@@ -138,6 +138,7 @@ class ShopifyWoocommerceIntegration{
         $response = wp_remote_get( $shopify_products );
         
         $shopify_product_id = get_post_meta($post->ID,'shopify_product_id', true);
+        
 
         if ( is_array( $response ) ) {
             $body = $response['body'];
@@ -151,7 +152,37 @@ class ShopifyWoocommerceIntegration{
                 <option value="<?php echo $product->id; ?>" <?php echo (isset($shopify_product_id) && $shopify_product_id == $product->id) ? 'selected': ''; ?>><?php echo $product->title; ?></option>
                 <?php } ?>
             </select>
-                    
+
+
+            <label>Main Product</label>
+            <select style="width: 100%;" name="wordpress-product-id">
+            <?php
+            
+            // For WPML
+            if (class_exists('SitePress')) {
+                global $sitepress;
+                $sitepress->switch_lang('en');
+            }
+
+            $wordpress_product_id = get_post_meta($post->ID,'wordpress_product_id', true);
+            $query = new WP_Query(
+                array(
+                    'post_type' => 'product'
+                )
+            );
+            if ($query->have_posts()): 
+                ?>
+                <option value="">Please choose here...</option>
+                <?php
+                while ($query->have_posts()){ $query->the_post(); 
+                ?>
+                <option value="<?php echo get_the_ID(); ?>" <?php echo (isset($wordpress_product_id) && $wordpress_product_id == get_the_ID()) ? 'selected': ''; ?>><?php echo get_the_title(); ?></option>
+                <?php
+                }
+                wp_reset_postdata();
+            endif;
+            ?>
+            </select>        
         <?php 
         }
     }
@@ -188,6 +219,9 @@ class ShopifyWoocommerceIntegration{
 
         if ($_REQUEST['shopify-product-id']){
             update_post_meta($post_id,'shopify_product_id',$_REQUEST['shopify-product-id']);
+        }
+        if ($_REQUEST['wordpress-product-id']){
+            update_post_meta($post_id,'wordpress_product_id',$_REQUEST['wordpress-product-id']);
         }
     }
 
