@@ -159,7 +159,7 @@ class ShopifyWoocommerceIntegration{
             <?php
 
             // For WPML
-            if (class_exists('SitePress')) {
+            if ( function_exists('icl_object_id') ) {
                 global $sitepress;
                 $sitepress->switch_lang('en');
             }
