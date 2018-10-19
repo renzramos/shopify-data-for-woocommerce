@@ -157,7 +157,7 @@ class ShopifyWoocommerceIntegration{
             <label>Main Product</label>
             <select style="width: 100%;" name="wordpress-product-id">
             <?php
-            
+
             // For WPML
             if (class_exists('SitePress')) {
                 global $sitepress;
@@ -167,7 +167,11 @@ class ShopifyWoocommerceIntegration{
             $wordpress_product_id = get_post_meta($post->ID,'wordpress_product_id', true);
             $query = new WP_Query(
                 array(
-                    'post_type' => 'product'
+                    'post_type' => 'product',
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'order' => 'title',
+                    'orderby' => 'ASC'
                 )
             );
             if ($query->have_posts()): 
